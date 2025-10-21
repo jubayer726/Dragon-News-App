@@ -1,5 +1,6 @@
 import React from "react";
 import { FaEye, FaStar } from "react-icons/fa";
+import { Link } from "react-router";
 
 const NewsCard = ({ news }) => {
   const {
@@ -8,7 +9,8 @@ const NewsCard = ({ news }) => {
     total_view,
     author,
     thumbnail_url,
-    details
+    details,
+    id
   } = news;
 
   const formattedDate = new Date(author.published_date).toLocaleDateString("en-US",
@@ -43,13 +45,14 @@ const NewsCard = ({ news }) => {
 
       {/* Thumbnail */}
       <figure>
-        <img src={thumbnail_url} alt={title} className="w-full h-56 object-cover" />
+        <img src={thumbnail_url} className="w-full h-56 object-cover" alt={title}/>
       </figure>
+      
 
       {/* Details */}
       <div className="p-4">
         <p className="text-sm text-gray-600 line-clamp-3">{details}</p>
-        <button className="btn btn-link text-primary px-0">Read More</button>
+        <Link to={`/news-details/${id}`} className="btn btn-link text-primary px-0">Read More</Link>
       </div>
 
       {/* Footer */}

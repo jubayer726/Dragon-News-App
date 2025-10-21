@@ -3,6 +3,12 @@ import { createBrowserRouter } from 'react-router';
 import HomeLayout from './HomeLayout';
 import Home from '../Page/Home';
 import CategoryNews from '../Page/CategoryNews';
+import Login from '../Page/Login';
+import Register from '../Page/Register';
+import Auth from './Auth';
+import NewsDetails from '../Page/NewsDetails';
+import PrivateRoute from '../Provider/PrivateRoute';
+import Loading from '../Page/Loading';
 
 const Root = createBrowserRouter([
   {
@@ -18,17 +24,31 @@ const Root = createBrowserRouter([
         path: 'category/:id',
         Component: CategoryNews,
         loader: () => fetch('/news.json'),
-        hydrateFallbackElement: <span className="loading loading-spinner loading-xl"></span>
+        hydrateFallbackElement: <Loading></Loading>
       }
     ]
   },
   {
     path: "/auth",
-    element: <div>this is authorigation</div>,
+    element: <Auth></Auth>,
+    children: [
+      {
+        path: '/auth/login',
+        element: <Login></Login>
+      },
+      {
+        path: '/auth/register',
+        element: <Register></Register>
+      }
+    ]
   },
   {
-    path: "/news",
-    element: <div>this is news section</div>,
+    path: "/news-details/:id",
+    element: <PrivateRoute>
+      <NewsDetails></NewsDetails>
+    </PrivateRoute>,
+    loader: () => fetch("/news.json"),
+    hydrateFallbackElement: <Loading></Loading>
   },
   {
     path: "/*",
